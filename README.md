@@ -1,1 +1,1 @@
-# Smu-arski_skoki_projektna_naloga
+# Smucarski_skoki_projektna_naloga
