@@ -24,8 +24,8 @@ with open("smucarski_skakalci.html") as dat:
     print (smucarji, len(smucarji))
 
 
-vzorec_bloka = re.compile(
-     r'<a class="table-row".*?'
-     r'</a>'
-     flags=re.DOTALL
-)
+# vzorec_bloka = re.compile(
+#      r'<a class="table-row".*?'
+#      r'</a>'
+#      flags=re.DOTALL
+# )
