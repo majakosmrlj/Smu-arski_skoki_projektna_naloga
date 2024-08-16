@@ -1,17 +1,22 @@
-# import re
+import re
+
+def izlusci_smucarja(koda):
+    with open(f"smucarji/posamezni_smucarji/smucar{koda}.html") as dat:
+        besedilo = dat.read()
+    # izluscimo ime in priimek)
+        ime_re = re.compile(
+            r'<h1 class="athlete-profile__name">(?P<ime>.+?)<span class="athlete-profile__lastname">(?P<priimek>.+?)</span>'
+            )
+        ime = []
+        priimek = []
+        for najdba in ime_re.finditer(besedilo):
+            ime.append(str(najdba["ime"]))
+            priimek.append(str(najdba["priimek"]))
+        print(ime, priimek)
 
 
-# def izlusci_smucarja(koda):
-#     with open(f"smucarji//posamezni_smucarji/smucar{koda}.html") as dat:
-#         besedilo = dat.read()
 
-#     # izluscimo ime in priimek
-#     ime_re = re.compile(
-#         r'<h1 class="athlete-profile__name">(?P<ime>.+?)<span class="athlete-profile__lastname">(?P<Priimek>.+?)</span>'
-#         )
-#     igralci_re = re.compile(
-#         r'title-cast-item__actor" href="/name/nm(?P<id>\d+)/\?ref_=tt_cl_t_\d+" class="sc-bfec09a1-1 gCQkeh">(?P<ime>.+?)</a>'
-#     )
+#ZA POMOC, OD PROFESORJA
 #     igralci = []
 #     for najdba in igralci_re.finditer(besedilo):
 #         igralci.append((najdba["id"], najdba["ime"]))
@@ -76,13 +81,17 @@
     
 #         return (igralci, reziserji, ocena, cas, leto, oznaka)
 
+
+html_content = "primer_posamezne_strani_peter_prev.html"
+
 from bs4 import BeautifulSoup
 
 def extract_athlete_info(html_content):
+    
     soup = BeautifulSoup(html_content, 'html.parser')
 
     # Extracting the athlete's name
-    name = soup.find('h1', class_='athlete-profile__name').text.strip().split()
+    name = soup.find('h1', class_='athlete-profile__name').strip().split()
     first_name = name[0]
     last_name = name[1] if len(name) > 1 else ''
 
@@ -119,6 +128,5 @@ def extract_athlete_info(html_content):
 
     return athlete_info
 
-html_content = """<Your HTML Content Here>"""
-athlete_info = extract_athlete_info(html_content)
-print(athlete_info)
+#athlete_info = extract_athlete_info(html_content)
+#print(athlete_info)
