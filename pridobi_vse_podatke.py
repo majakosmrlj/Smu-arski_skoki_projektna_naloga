@@ -32,14 +32,14 @@ for i in range(9):
 
 
 count = 0
-for koda in kode:
+for koda in kode[2037:]:
     url = f"https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=JP&competitorid={koda}"
     odgovor = requests.get(url)    
     if odgovor.status_code == 200:
         count += 1
         with open(os.path.join("posamezni_smucarji", f"smucar_{koda}.html"), "w", encoding ="utf8") as dat:
             dat.write(odgovor.text)
-        time.sleep(2)
+        time.sleep(1)
     else:
         print("url")
         break
