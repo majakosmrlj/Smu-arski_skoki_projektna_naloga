@@ -28,12 +28,12 @@ for i in range(9):
         niz_za_kodo = r'<a class="table-row" href="https://www\.fis-ski\.com/DB/general/athlete-biography\.html\?sectorcode=JP&amp;competitorid=(?P<koda>\d+)" target="_self">'
         for najdba in re.finditer(niz_za_kodo, vsebina):
             kode.append(int(najdba["koda"]))
-    #print (len(kode))
+    print (len(kode))
 
 
 count = 0
-for koda in kode[2037:]:
-    url = f"https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=JP&competitorid={koda}"
+for koda in kode:
+    url = f"https://www.fis-ski.com/DB/general/athlete-biography.html?sectorcode=JP&competitorid={koda}&type=result&categorycode=&sort=&place=&disciplinecode=&position=&limit=1000"
     odgovor = requests.get(url)    
     if odgovor.status_code == 200:
         count += 1
