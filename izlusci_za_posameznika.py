@@ -9,87 +9,118 @@ vzorec_vseh_podatkov = re.compile(
     r'<h1 class="athlete-profile__name">(?P<ime>.*?)<span class="athlete-profile__lastname">(?P<priimek>.*?)</span>.*?'
     r'<div class="athlete-profile__team spacer__section">(?P<klub>.*?)</div>.*?'
     r'<span class="country__name">(?P<drzava>.*?)</span>.*?'
-    #za pridobitef fis code
+    #za pridobitev fis code
     r'<li class="profile-info__entry profile-info__entry_visible_xs" id="FIS Code">\s*?'
     r'<span class="profile-info__field">FIS Code</span>\s*?'
     r'<span class="profile-info__value">(?P<id>.*?)</span>.*?'
-    #za pridobitev rojstnega dneva
-    r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Birthdate">\s+?'
-    r'<span class="profile-info__field">Birthdate</span>\s*?'
-    r'<span class="profile-info__value">(?P<rojstni_dan>.*?)</span>.*?'
-    #za starost
-    r'<li class="profile-info__entry" id="Age">\s*?'
-    r'<span class="profile-info__field">Age</span>\s*?'
-    r'<span class="profile-info__value">(?P<starost>.*?)</span>.*?'
+    # #za pridobitev rojstnega dneva
+    # # r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Birthdate">\s+?'
+    # # r'<span class="profile-info__field">Birthdate</span>\s*?'
+    # # r'<span class="profile-info__value">(?P<rojstni_dan>.*?)</span>.*?'
     #za trenutni status
-    r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Status">\*?'
+    r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Status">\s*?'
     r'<span class="profile-info__field">Status</span>\s*?'
     r'<span class="profile-info__value">(?P<status>.*?)</span>.*?'
     #spol
     r'<li class="profile-info__entry" id="Gender">\s*?'
     r'<span class="profile-info__field">Gender</span>\s*?'
-    r'<span class="profile-info__value">(?P<spol>.+?)</span>.*?',
+    r'<span class="profile-info__value">(?P<spol>.+?)</span>.*?'
+    #prebivalisce
+    r'<li class="profile-info__entry" id="Residence">\s*?'
+    r'<span class="profile-info__field">Residence</span>\s*?'
+    r'<span class="profile-info__value">(?P<prebivalisce>.+?)</span>.*?'
+    #smuci
+    r'<li class="profile-info__entry" id="Skis">\s*?'
+    r'<span class="profile-info__field">Skis</span>\s*?'
+    r'<span class="profile-info__value">(?P<smuci>.+?)</span>',
     flags = re.DOTALL
 )
 #za rd je lahko &nbsp;___PAZI
 
-def izlušci_posameznega_smuvcarja(vsebina):
+
+vzorec_rojstnega_leta = re.compile(
+    r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Birthdate">\s*?'
+    r'<span class="profile-info__field">Birthdate</span>\s*?'
+    r'<span class="profile-info__value">(?P<rojstno_leto>.*?)</span>',
+    flags = re.DOTALL
+)
+
+def izlusci_posameznega_smucarja(vsebina):
     smucar = vzorec_vseh_podatkov.search(vsebina).groupdict()
     smucar['ime'] = smucar["ime"].strip()
     smucar['priimek'] = smucar["priimek"].strip().capitalize()
-    smucar['klub'] = smucar["klub"]
+    #za klub, da če ni podatka vrne None
+    if smucar["klub"] == '':
+        smucar['klub'] = None
+    else:
+        smucar['klub'] = smucar["klub"]
+
     smucar['drzava'] = smucar["drzava"]
     smucar['id'] = int(smucar["id"])
-    smucar['rojstni_dan'] = int(smucar["rojstni_dan"])
-    smucar['starost'] = int(smucar["starost"])
     smucar['status'] = smucar["status"]
     smucar['spol'] = smucar["spol"]
+
+    #za prebivalisce
+    if not smucar['prebivalisce'].isalpha():
+        smucar['prebivalisce'] = None
+    else:
+        smucar['prebivalisce'] = smucar["prebivalisce"]
+
+    #za smuci
+    if not smucar['smuci'].isalpha():
+        smucar['smuci'] = None
+    else:
+        smucar['smuci'] = smucar["smuci"]
+
+    #za rojstni dan
+    rojstno_leto = vzorec_rojstnega_leta.search(vsebina)
+    if rojstno_leto["rojstno_leto"] == '&nbsp;':
+        smucar['rojstno_leto'] = None
+    else:
+        smucar['rojstno_leto'] = int(rojstno_leto["rojstno_leto"][-4:])
+        
     return dict(smucar)
 
-# smucar = OrderedDict(
-#     ime=smucar["ime"],
-
-# )
 
 
 
-#131309
-koda = 8
+# #131309
+# koda = 8
 
-def izlusci_smucarja(koda):
-    with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html") as dat:
-        besedilo = dat.read()
-    # izluscimo ime in priimek)
-        ime_re = re.compile(
-            r'<h1 class="athlete-profile__name">(?P<ime>.*?)<span class="athlete-profile__lastname">(?P<priimek>.*?)</span>',
-            flags=re.DOTALL
-            )
-        id_re = re.compile(
-            r'<li class="profile-info__entry profile-info__entry_visible_xs" id="FIS Code">\s*?'
-            r'<span class="profile-info__field">FIS Code</span>\s*?'
-            r'<span class="profile-info__value">(?P<id>.*?)</span>.*?',
-            flags = re.DOTALL
-            )
-        rojstni_dan_re = re.compile(
-            r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Birthdate">\s+?'
-            r'<span class="profile-info__field">Birthdate</span>\s*?'
-            r'<span class="profile-info__value">(?P<rojstni_dan>.*?)</span>.*?',
-            flags = re.DOTALL
-            )
-        ime = []
-        priimek = []
-        id = []
-        rojstni_dan = []
-        for najdba in ime_re.finditer(besedilo):
-            ime.append(str(najdba["ime"]).strip())
-            priimek.append(str(najdba["priimek"]).strip().capitalize())
-        for najdba in id_re.finditer(besedilo):
-            id.append(int(najdba["id"]))
-        for najdba in rojstni_dan_re.finditer(besedilo):
-            rojstni_dan.append((najdba["rojstni_dan"]))
-        print(ime, priimek, id, rojstni_dan)
+# def izlusci_smucarja(koda):
+#     with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html") as dat:
+#         besedilo = dat.read()
+#     # izluscimo ime in priimek)
+#         ime_re = re.compile(
+#             r'<h1 class="athlete-profile__name">(?P<ime>.*?)<span class="athlete-profile__lastname">(?P<priimek>.*?)</span>',
+#             flags=re.DOTALL
+#             )
+#         id_re = re.compile(
+#             r'<li class="profile-info__entry profile-info__entry_visible_xs" id="FIS Code">\s*?'
+#             r'<span class="profile-info__field">FIS Code</span>\s*?'
+#             r'<span class="profile-info__value">(?P<id>.*?)</span>.*?',
+#             flags = re.DOTALL
+#             )
+#         rojstni_dan_re = re.compile(
+#             r'<li class="profile-info__entry profile-info__entry_visible_xs" id="Birthdate">\s+?'
+#             r'<span class="profile-info__field">Birthdate</span>\s*?'
+#             r'<span class="profile-info__value">(?P<rojstni_dan>.*?)</span>.*?',
+#             flags = re.DOTALL
+#             )
+#         ime = []
+#         priimek = []
+#         id = []
+#         rojstni_dan = []
+#         for najdba in ime_re.finditer(besedilo):
+#             ime.append(str(najdba["ime"]).strip())
+#             priimek.append(str(najdba["priimek"]).strip().capitalize())
+#         for najdba in id_re.finditer(besedilo):
+#             id.append(int(najdba["id"]))
+#         for najdba in rojstni_dan_re.finditer(besedilo):
+#             rojstni_dan.append((najdba["rojstni_dan"]))
+#         print(ime, priimek, id, rojstni_dan)
 
-izlusci_smucarja(koda)
+# izlusci_smucarja(koda)
 
 
 
@@ -174,53 +205,3 @@ izlusci_smucarja(koda)
 #         print("napaka: ocena", id)
     
 #         return (igralci, reziserji, ocena, cas, leto, oznaka)
-
-
-# html_content = "primer_posamezne_strani_peter_prev.html"
-
-# from bs4 import BeautifulSoup
-
-# def extract_athlete_info(html_content):
-    
-#     soup = BeautifulSoup(html_content, 'html.parser')
-
-#     # Extracting the athlete's name
-#     name = soup.find('h1', class_='athlete-profile__name').strip().split()
-#     first_name = name[0]
-#     last_name = name[1] if len(name) > 1 else ''
-
-#     # Extracting other details
-#     team = soup.find('div', class_='athlete-profile__team').text.strip()
-#     country = soup.find('span', class_='country__name').text.strip()
-    
-#     profile_info = {}
-#     for entry in soup.find_all('li', class_='profile-info__entry'):
-#         field = entry.find('span', class_='profile-info__field').text.strip()
-#         value = entry.find('span', class_='profile-info__value').text.strip()
-#         profile_info[field] = value
-
-#     athlete_info = {
-#         'first_name': first_name,
-#         'last_name': last_name,
-#         'team': team,
-#         'country': country,
-#         'FIS_code': profile_info.get('FIS Code', ''),
-#         'birthdate': profile_info.get('Birthdate', ''),
-#         'age': profile_info.get('Age', ''),
-#         'status': profile_info.get('Status', ''),
-#         'gender': profile_info.get('Gender', ''),
-#         'marital_status': profile_info.get('Marital Status', ''),
-#         'children': profile_info.get('Children', ''),
-#         'occupation': profile_info.get('Occupation', ''),
-#         'nickname': profile_info.get('Nickname', ''),
-#         'residence': profile_info.get('Residence', ''),
-#         'languages': profile_info.get('Languages', ''),
-#         'hobbies': profile_info.get('Hobbies', ''),
-#         'skis': profile_info.get('Skis', ''),
-#         'boots': profile_info.get('Boots', ''),
-#     }
-
-#     return athlete_info
-
-#athlete_info = extract_athlete_info(html_content)
-#print(athlete_info)
