@@ -7,7 +7,7 @@ from collections import OrderedDict
 #za kodo ne deluje vse pravilo, zdi se mi da je vzorec nekaj narobe
 
 vzorec_vseh_podatkov = re.compile(
-    #r'<div style="background-image:url\(\'https://data\.fis-ski\.com/general/load-competitor-picture/(?P<koda>.*?)\.html\'\);" class="avatar__image"></div>.*?'
+  #  r'<div style="background-image:url\(\'https://data\.fis-ski\.com/general/load-competitor-picture/(?P<koda>.*?)\.html\'\);" class="avatar__image"></div>.*?'
     r'<h1 class="athlete-profile__name">(?P<ime>.*?)<span class="athlete-profile__lastname">(?P<priimek>.*?)</span>.*?'
     r'<div class="athlete-profile__team spacer__section">(?P<klub>.*?)</div>.*?'
     r'<span class="country__name">(?P<drzava>.*?)</span>.*?'
@@ -30,7 +30,8 @@ vzorec_vseh_podatkov = re.compile(
     #smuci
     r'<li class="profile-info__entry" id="Skis">\s*?'
     r'<span class="profile-info__field">Skis</span>\s*?'
-    r'<span class="profile-info__value">(?P<smuci>.+?)</span>',
+    r'<span class="profile-info__value">(?P<smuci>.+?)</span>.*?'
+    r'<use xlink:href="https://www\.fis-ski\.com/DB/general/athlete-biography\.html\?sectorcode=JP&competitorid=(?P<koda>.*?)&type=result&categorycode=&sort=&place=&disciplinecode=&position=&limit=1000#filter"></use>',
     flags = re.DOTALL
 )
 
@@ -45,7 +46,7 @@ vzorec_rojstnega_leta = re.compile(
 
 def izlusci_posameznega_smucarja(vsebina):
     smucar = vzorec_vseh_podatkov.search(vsebina).groupdict()
-    #smucar["koda"] = int(smucar['koda'])
+    smucar["koda"] = int(smucar['koda'])
     smucar['ime'] = smucar["ime"].strip()
     smucar['priimek'] = smucar["priimek"].strip().capitalize()
     #za klub
