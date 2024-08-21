@@ -7,7 +7,6 @@ from collections import OrderedDict
 #za kodo ne deluje vse pravilo, zdi se mi da je vzorec nekaj narobe
 
 vzorec_vseh_podatkov = re.compile(
-  #  r'<div style="background-image:url\(\'https://data\.fis-ski\.com/general/load-competitor-picture/(?P<koda>.*?)\.html\'\);" class="avatar__image"></div>.*?'
     r'<h1 class="athlete-profile__name">(?P<ime>.*?)<span class="athlete-profile__lastname">(?P<priimek>.*?)</span>.*?'
     r'<div class="athlete-profile__team spacer__section">(?P<klub>.*?)</div>.*?'
     r'<span class="country__name">(?P<drzava>.*?)</span>.*?'

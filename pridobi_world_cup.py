@@ -6,7 +6,7 @@ import re
 
 #s to funkcijo sem si shranila končne rezultate world cupa v smucarskih skokih zadnjih petih sezon pri moškoih in ženskah
 spola = ['W', 'M']
-letnice = [2020, 2021, 2022, 2023, 2024]
+letnice = [2020, 2021]#, 2022, 2023, 2024]
 
 # for spol in spola:
 #     for leto in letnice:
@@ -32,5 +32,23 @@ for spol in spola:
             for najdba in re.finditer(niz_za_kodo, vsebina):
                 kode.append(int(najdba["koda"]))
 print (len(kode))
-
 #našlo jih je 762 na vseh 10ih straneh
+
+
+
+
+#s to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
+from izlusci_world_cup import *
+
+count = 0
+for spol in spola:
+    for leto in letnice:
+        with open(f"world_cup/world_cup_stran_{leto}_{spol}.html", encoding ="utf8") as dat:
+            vsebina = dat.read()
+            for vzorec in vzorec_smucarjev.finditer(vsebina):
+                smucar = izlusci_smucarja(vzorec.group())
+                smucar['leto'] = leto
+                smucar['spol'] = spol
+                print(smucar)
+                count += 1
+print(count)
