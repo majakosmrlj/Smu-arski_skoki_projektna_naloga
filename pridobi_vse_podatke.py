@@ -20,9 +20,7 @@ import json
 
 
 
-
-
-#preverimo koliko je vseh smucarskih skakalcev in  dobimo ven njihove kode
+#preverimo koliko je vseh smucarskih skakalcev in dobimo ven njihove kode
 kode = []
 for i in range(9):
     with open(f"smucarji/smucarji_stran_{i}.html") as d:
@@ -31,6 +29,9 @@ for i in range(9):
         for najdba in re.finditer(niz_za_kodo, vsebina):
             kode.append(int(najdba["koda"]))
 print (len(kode))
+
+
+
 
 #shranjevanje vseh spletnih strani posameznih smucarskih skakalcev
 
@@ -46,14 +47,15 @@ print (len(kode))
 #     else:
 #         print("url")
 #         break
-
 # print(count)            
+
+
 
 
 from izlusci_za_posameznika import *
 
 
-#TO FUNKCIJO SEM UPORABILA, DA SEM PREBERILA ČE PRVILNO DELUJE FUNKCIJA IZLUSCI_POSAMEZNEGA_SMUCARJA
+#TO FUNKCIJO SEM UPORABILA, DA SEM PREVERILA ČE PRVILNO DELUJE FUNKCIJA IZLUSCI_POSAMEZNEGA_SMUCARJA
 
 count = 0
 for koda in kode[:100]:
