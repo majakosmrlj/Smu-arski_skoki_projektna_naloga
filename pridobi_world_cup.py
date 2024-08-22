@@ -1,9 +1,10 @@
 import  requests
 import os
 import re
+import json
 
 
-letnice = [2015, 2016]#, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+letnice = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
 #s to funkcijo sem si shranila končne rezultate world cupa v smucarskih skokih zadnjih petih sezon pri moškoih in ženskah
 
 
@@ -37,15 +38,31 @@ print (len(kode))
 #s to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
 from izlusci_world_cup import *
 
+# count = 0
+# for leto in letnice:
+#     with open(f"world_cup/world_cup_stran_{leto}.html", encoding ="utf8") as dat:
+#         vsebina = dat.read()
+#         for vzorec in vzorec_smucarjev.finditer(vsebina):
+#             smucar = izlusci_smucarja(vzorec.group())
+#             smucar['leto'] = leto
+#             smucar['spol'] = 'M'
+#             print(smucar)
+#             count += 1
+# print(count)
+
+
+
+w_smucarski_skakalci = []
 count = 0
-#for spol in spola:
 for leto in letnice:
     with open(f"world_cup/world_cup_stran_{leto}.html", encoding ="utf8") as dat:
         vsebina = dat.read()
         for vzorec in vzorec_smucarjev.finditer(vsebina):
-            smucar = izlusci_smucarja(vzorec.group())
-            smucar['leto'] = leto
-            smucar['spol'] = 'M'
-            print(smucar)
+            smucarski_skakalec = izlusci_smucarja(vzorec.group())
+            smucarski_skakalec['leto'] = leto
+            smucarski_skakalec['spol'] = 'M'
             count += 1
+            w_smucarski_skakalci.append(smucarski_skakalec)
 print(count)
+with open("world_cup.json", "w", encoding='utf-8') as d:
+    json.dump(w_smucarski_skakalci, d, ensure_ascii=False, indent=4) 
