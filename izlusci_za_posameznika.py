@@ -78,10 +78,23 @@ def izlusci_posameznega_smucarja(vsebina):
     else:
         smucar['rojstno_leto'] = int(rojstno_leto["rojstno_leto"][-4:])
         
+    
+
+    smucar = OrderedDict(
+        koda=smucar["koda"],
+        ime=smucar["ime"],
+        priimek=smucar["priimek"],
+        id = smucar['id'],
+        drzava = smucar["drzava"],
+        klub = smucar["klub"],
+        status = smucar["status"],
+        spol = smucar["spol"],
+
+        #zadnji nima vejice
+#dokončaj
+    )
+    
     return dict(smucar)
-
-
-
 
 # #131309
 # koda = 8
