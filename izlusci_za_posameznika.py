@@ -1,7 +1,4 @@
 import re
-import os
-import json
-import html
 from collections import OrderedDict
 
 #za kodo ne deluje vse pravilo, zdi se mi da je vzorec nekaj narobe
@@ -85,13 +82,13 @@ def izlusci_posameznega_smucarja(vsebina):
         ime=smucar["ime"],
         priimek=smucar["priimek"],
         id = smucar['id'],
+        rojstno_leto= smucar["rojstno_leto"],
         drzava = smucar["drzava"],
         klub = smucar["klub"],
         status = smucar["status"],
         spol = smucar["spol"],
-
-        #zadnji nima vejice
-#dokončaj
+        smuci = smucar["smuci"],
+        prebivalisce = smucar["prebivalisce"]
     )
     
     return dict(smucar)

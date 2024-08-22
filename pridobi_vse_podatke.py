@@ -57,29 +57,31 @@ from izlusci_za_posameznika import *
 
 #TO FUNKCIJO SEM UPORABILA, DA SEM PREVERILA ČE PRVILNO DELUJE FUNKCIJA IZLUSCI_POSAMEZNEGA_SMUCARJA
 
-count = 0
-for koda in kode[:100]:
-    with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html", encoding ="utf8") as dat:
-        vsebina = dat.read()
-        for vzorec in vzorec_vseh_podatkov.finditer(vsebina):
-            print(izlusci_posameznega_smucarja(vsebina))
-            count += 1
-print(count)
-
-
-
-# smucarski_skakalci = []
 # count = 0
-# for koda in kode:
+# for koda in kode[:100]:
 #     with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html", encoding ="utf8") as dat:
 #         vsebina = dat.read()
 #         for vzorec in vzorec_vseh_podatkov.finditer(vsebina):
-#             smucarski_skakalec = izlusci_posameznega_smucarja(vsebina)
+#             print(izlusci_posameznega_smucarja(vsebina))
 #             count += 1
-#             smucarski_skakalci.append(smucarski_skakalec)
 # print(count)
-# with open("smucarski_skakalci.json", "w", encoding='utf-8') as d:
-#     json.dump(smucarski_skakalci, d, ensure_ascii=False, indent=4) 
+
+
+#S TO FUNKCIJO SEM SHRANILA PODATKE V JSON DATOTEKO
+#(od 8892, jih je našlo 8873--- men je ok)
+
+smucarski_skakalci = []
+count = 0
+for koda in kode:
+    with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html", encoding ="utf8") as dat:
+        vsebina = dat.read()
+        for vzorec in vzorec_vseh_podatkov.finditer(vsebina):
+            smucarski_skakalec = izlusci_posameznega_smucarja(vsebina)
+            count += 1
+            smucarski_skakalci.append(smucarski_skakalec)
+print(count)
+with open("smucarski_skakalci.json", "w", encoding='utf-8') as d:
+    json.dump(smucarski_skakalci, d, ensure_ascii=False, indent=4) 
 
 
 
