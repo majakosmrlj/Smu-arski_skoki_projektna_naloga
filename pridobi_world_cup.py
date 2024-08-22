@@ -30,13 +30,16 @@ for leto in letnice:
         for najdba in re.finditer(niz_za_kodo, vsebina):
             kode.append(int(najdba["koda"]))
 print (len(kode))
+
 #našlo jih je 926 na vseh 10ih straneh
 
 
 
 
-#s to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
+
 from izlusci_world_cup import *
+
+#s to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
 
 # count = 0
 # for leto in letnice:
@@ -52,8 +55,30 @@ from izlusci_world_cup import *
 
 
 
+
+#S TO FUNKCIJO SEM VSE PODATKE DALA V JSON DATOTEKO
+
+# w_smucarski_skakalci = []
+# count = 0
+# for leto in letnice:
+#     with open(f"world_cup/world_cup_stran_{leto}.html", encoding ="utf8") as dat:
+#         vsebina = dat.read()
+#         for vzorec in vzorec_smucarjev.finditer(vsebina):
+#             smucarski_skakalec = izlusci_smucarja(vzorec.group())
+#             smucarski_skakalec['leto'] = leto
+#             smucarski_skakalec['spol'] = 'M'
+#             count += 1
+#             w_smucarski_skakalci.append(smucarski_skakalec)
+# print(count)
+# with open("world_cup.json", "w", encoding='utf-8') as d:
+#     json.dump(w_smucarski_skakalci, d, ensure_ascii=False, indent=4) 
+
+
+
+
+#TO FUNKCIJO SEM UPORABILA V SHRANI, KER SEM POTREBOVALA w_smucarski_skakalci
+
 w_smucarski_skakalci = []
-count = 0
 for leto in letnice:
     with open(f"world_cup/world_cup_stran_{leto}.html", encoding ="utf8") as dat:
         vsebina = dat.read()
@@ -61,8 +86,4 @@ for leto in letnice:
             smucarski_skakalec = izlusci_smucarja(vzorec.group())
             smucarski_skakalec['leto'] = leto
             smucarski_skakalec['spol'] = 'M'
-            count += 1
             w_smucarski_skakalci.append(smucarski_skakalec)
-print(count)
-with open("world_cup.json", "w", encoding='utf-8') as d:
-    json.dump(w_smucarski_skakalci, d, ensure_ascii=False, indent=4) 
