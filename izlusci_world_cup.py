@@ -2,7 +2,6 @@ import re
 from collections import OrderedDict
 
 
-
 vzorec_smucarjev = re.compile(
     r'<a class="table-row  reset-padding" href="https://www\.fis-ski\.com/DB/general/athlete-biography\.html\?sectorcode=JP&competitorid=(?P<koda>.*?)&type=cups&cupcode=WC" target="_self">.*?'
     r'<div class="g-xs-10 g-sm-9 g-md-4 g-lg-4 justify-left bold align-xs-top">(?P<priimek_in_ime>.*?)</div>.*?'

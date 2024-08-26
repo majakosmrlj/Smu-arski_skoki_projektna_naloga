@@ -35,7 +35,7 @@ def vsebina_datoteke(ime_datoteke):
     with open(ime_datoteke, encoding='utf-8') as datoteka:
         return datoteka.read()
 
-
+#TO FUNKCIJO SEM UPORABILA, ZATO DA SEM PODATKE SHRANILA V CSV
 def zapisi_csv(slovarji, imena_polj, ime_datoteke):
     '''Iz seznama slovarjev ustvari CSV datoteko z glavo.'''
     pripravi_imenik(ime_datoteke)

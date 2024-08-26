@@ -2,11 +2,11 @@ import  requests
 import os
 import re
 import json
-
-
+#GLEDALA SEM ZADNJIH 10 LET V SVETOVNEM POKALU
 letnice = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-#s to funkcijo sem si shranila končne rezultate world cupa v smucarskih skokih zadnjih petih sezon pri moškoih in ženskah
 
+
+#S to funkcijo sem pridobila rezultate world cupa (svetovnega pokala) v smucarskih skokih zadnjih desetih let pri moških [html datoteke sem shranila v mapo world_cup]
 
 # for leto in letnice:
 #     url = f"https://www.fis-ski.com/DB/general/cup-standings.html?sectorcode=JP&seasoncode={leto}&cupcode=WC&disciplinecode=ALL&gendercode=M&nationcode="
@@ -21,7 +21,7 @@ letnice = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
 
 
 
-#funkcija, ki pridobi kode od vseh smucarskih skakalcev----> podobno kot sem naredila, ko sem zajemala podatke vseh smucarskih skakalcev
+#Ta funkcija pridobi kode od vseh smucarskih skakalcev --> podobno kot sem naredila, ko sem zajemala podatke vseh smucarskih skakalcev
 kode = []
 for leto in letnice:
     with open(f"world_cup/world_cup_stran_{leto}.html") as d:
@@ -30,16 +30,14 @@ for leto in letnice:
         for najdba in re.finditer(niz_za_kodo, vsebina):
             kode.append(int(najdba["koda"]))
 print (len(kode))
-
-#našlo jih je 926 na vseh 10ih straneh
-
+#našlo je 926 tekmovalcev na vseh 10ih straneh
 
 
 
 
 from izlusci_world_cup import *
 
-#s to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
+#S to funkcijo sem preverila če pravilno deluje funkcija izlusci_smucarja
 
 # count = 0
 # for leto in letnice:
@@ -56,7 +54,7 @@ from izlusci_world_cup import *
 
 
 
-#S TO FUNKCIJO SEM VSE PODATKE DALA V JSON DATOTEKO
+#S TO FUNKCIJO SEM VSE PODATKE ZA WORLD_CUP DALA V JSON DATOTEKO
 
 # w_smucarski_skakalci = []
 # count = 0
@@ -76,7 +74,7 @@ from izlusci_world_cup import *
 
 
 
-#TO FUNKCIJO SEM UPORABILA V SHRANI, KER SEM POTREBOVALA w_smucarski_skakalci
+#TO FUNKCIJO SEM UPORABILA V shrani_v_csv, SAJ SEM POTREBOVALA SEZNAM w_smucarski_skakalci
 
 w_smucarski_skakalci = []
 for leto in letnice:

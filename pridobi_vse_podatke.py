@@ -4,7 +4,7 @@ import time
 import re
 import json
 
-#da sem dobila dol vseh 9 strani s smucarskimi skakalci
+#Da sem pridobila vseh 9 strani s smučarskimi skakalci
 
 # for i in range(9):
 #     url = f"https://www.fis-ski.com/DB/ski-jumping/biographies.html?lastname=&firstname=&sectorcode=JP&gendercode=&birthyear=&skiclub=&skis=&nationcode=&fiscode=&status=&search=true&limit=1000&offset={i * 1000}"
@@ -19,8 +19,8 @@ import json
 
 
 
+#Preverimo koliko je vseh smučarskih skakalcev in dobimo ven njihove kode
 
-#preverimo koliko je vseh smucarskih skakalcev in dobimo ven njihove kode
 kode = []
 for i in range(9):
     with open(f"smucarji/smucarji_stran_{i}.html") as d:
@@ -33,7 +33,7 @@ print (len(kode))
 
 
 
-#shranjevanje vseh spletnih strani posameznih smucarskih skakalcev
+#Shranjevanje vseh spletnih strani za posamezne smucarske skakalce
 
 # count = 0
 # for koda in kode:
@@ -52,10 +52,11 @@ print (len(kode))
 
 
 
+
 from izlusci_za_posameznika import *
 
 
-#TO FUNKCIJO SEM UPORABILA, DA SEM PREVERILA ČE PRVILNO DELUJE FUNKCIJA IZLUSCI_POSAMEZNEGA_SMUCARJA
+#TO FUNKCIJO SEM UPORABILA, DA SEM PREVERILA ČE PRAVILNO DELUJE FUNKCIJA IZLUSCI_POSAMEZNEGA_SMUCARJA
 
 # count = 0
 # for koda in kode[:100]:
@@ -70,7 +71,6 @@ from izlusci_za_posameznika import *
 
 
 #S TO FUNKCIJO SEM SHRANILA PODATKE V JSON DATOTEKO
-#(od 8892, jih je našlo 8873--- men je ok)
 
 # smucarski_skakalci = []
 # count = 0
@@ -88,7 +88,8 @@ from izlusci_za_posameznika import *
 
 
 
-#ta seznam smucarskih skakalcev sem uporabila v shrani_v_csv.py 
+#TO FUNKCIJO SEM UPORABILA V shrani_v_csv, SAJ SEM POTREBOVALA SEZNAM smucarski_skakalci
+
 smucarski_skakalci = []
 for koda in kode:
     with open(f"smucarji/posamezni_smucarji/smucar_{koda}.html", encoding ="utf8") as dat:
